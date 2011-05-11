@@ -1,0 +1,32 @@
+# syntax
+Def -> NP
+Def -> NP
+Def -> NP - DefP
+NP -> Art AdjN
+NP -> Art AdjN NCompl
+NP -> Art N
+Art -> a
+AdjN -> Adj N | Adj Adj N
+NCompl -> PP | that VP
+PP -> Prep NP
+VP -> V NP
+VP -> V
+DefP -> Adv DefVP
+DefVP -> DefV DefNpl
+
+# lexicon
+N -> cybercafe | hurdle | lineman | locket | slug | goiter | schoolfriend | platoon | dogma | sniper | bacon | misunderstanding | noise | swatch | recital | darkness | redundancy | primate | platypus | viceroyship | bird | rondeau | nitrobacteria | paleogeography
+
+Adj -> puffy | copious | misfortunate | subaqueous | gross | precocious | veracious | nauseous | powdery | consecutive | pyramidal | lexicalized | choleric | contradictory | thoughtful | mystical
+
+V -> smashes | proofs | lip-synchs | twitters | shares | challenges | abridges | instructs | passes | bluffs | circulates | drives | combusts | foresees | kicks | belches
+
+Prep -> in | on | over | under | outside | inside | around | encompassing | nowhere near | concerning | of | consisting of | near
+
+Adv -> commonly | usually | sometimes | rarely
+
+DefV -> said of | described as | attributed to | known as
+
+DefNpl -> locusts | voltmeters | branches | pickets | crafters | limes | dynamos | hitches | chestnuts | borders | designs | hours | prosecutors | furuncles | hailstorms | pterodactyls | youths | yardarms
+
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Random tweets</title>
+	</head>
+	<body>
+		<h1>Random tweets for a twitter screen name!</h1>
+		<img src="{{ static_url("bird.jpg") }}">
+		<p>
+			<input type="text" name="screen_name" id="screen_name">
+			<input type="button" id="clicker" value="click to generate a tweet!">
+		</p>
+		<p id="results"></div>
+		<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#clicker').live('click', function() {
+					$('#results').html('loading...');
+					var screen_name = $('#screen_name').val();
+					$.get('/markov', {"screen_name": screen_name}, function(data) {
+						$('#results').html(data);
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
