@@ -1,13 +1,9 @@
 import sys
 
-def load_adjectives():
-  adj = set()
-  for line in open('adjectives'):
-    line = line.strip()
-    adj.add(line)
-  return adj
-
-adj_set = load_adjectives()
+adj_set = set()
+for line in open('adjectives'):
+  line = line.strip()
+  adj_set.add(line)
 
 for line in sys.stdin:
   line = line.strip()
