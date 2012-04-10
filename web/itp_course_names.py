@@ -1,4 +1,4 @@
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 import urllib
 
 url = "https://itp.nyu.edu/registration/CourseListing.php?semester=Fall&year=2011"
