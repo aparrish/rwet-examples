@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import urllib
 
-url = "https://itp.nyu.edu/registration/CourseListing.php?semester=Fall&year=2011"
+url = "https://itp.nyu.edu/registration/CourseListing.php?semester=Fall&year=2013"
 
 data = urllib.urlopen(url).read()
 soup = BeautifulSoup(data)
