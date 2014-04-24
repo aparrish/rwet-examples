@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>A random definition generator</title>
+		<title>WordNet definition look-up</title>
 	</head>
 	<body>
-		<h1>A random definition.</h1>
-		<p>{{ escape(word) }} <i>n.</i> {{ escape(definition) }}</p>
-		<p>Reload to generate another, or <a href="/">enter a new word</a>.
+		<h1>Your definition, as promised.</h1>
+		<p>{{ word.title() }}: {{ definition }}</p>
+		<p>Reload to get another, or <a href="/">enter a new word</a>.
 	</body>
 </html>
