@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>A random definition generator</title>
+		<title>WordNet definition lookup</title>
 	</head>
 	<body>
-		<h1>A random definition generator.</h1>
 		<img src="{{ static_url('kitten.jpg') }}">
-		<p>Enter a word to randomly define below.</p>
+		<p>Enter a word to define below.</p>
 		<form method="post" action="/definition">
 			<input type="text" name="word">
 			<input type="submit" value="define this word!">
