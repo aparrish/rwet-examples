@@ -1,76 +1,98 @@
+import random
 
-class MarkovGenerator(object):
+def build_model(tokens, n):
+	"Builds a Markov model from the list of tokens, using n-grams of length n."
+	model = dict()
+	if len(tokens) < n:
+		return model
+	for i in range(len(tokens) - n):
+		gram = tuple(tokens[i:i+n])
+		next_token = tokens[i+n]
+		if gram in model:
+			model[gram].append(next_token)
+		else:
+			model[gram] = [next_token]
+	final_gram = tuple(tokens[len(tokens)-n:])
+	if final_gram in model:
+		model[final_gram].append(None)
+	else:
+		model[final_gram] = [None]
+	return model
 
-  def __init__(self, n, max):
-    self.n = n # order (length) of ngrams
-    self.max = max # maximum number of elements to generate
-    self.ngrams = dict() # ngrams as keys; next elements as values
-    self.beginnings = list() # beginning ngram of every line
+def generate(model, n, seed, max_iterations=100):
+	"""Generates a list of tokens from information in model, using n as the
+		length of n-grams in the model. Starts the generation with the n-gram
+		given as seed. If more than max_iteration iterations are reached, the
+		process is stopped. (This is to prevent infinite loops)""" 
+	output = list(seed)
+	current = tuple(seed)
+	for i in range(max_iterations):
+		if current in model:
+			possible_next_tokens = model[current]
+			next_token = random.choice(possible_next_tokens)
+			if next_token is None: break
+			output.append(next_token)
+			current = tuple(output[-n:])
+		else:
+			break
+	return output
 
-  def tokenize(self, text):
-    return text.split(" ")
+def merge_models(models):
+	"Merges two or more Markov models."
+	merged_model = dict()
+	for model in models:
+		for key, val in model.iteritems():
+			if key in merged_model:
+				merged_model[key].extend(val)
+			else:
+				merged_model[key] = val
+	return merged_model
 
-  def feed(self, text):
+def generate_from_token_lists(token_lines, n, count=14, max_iterations=100):
+	"""Generates text from a list of lists of tokens. This function is intended
+		for input text where each line forms a distinct unit (e.g., poetry), and
+		where the desired output is to recreate lines in that form. It does this
+		by keeping track of the n-gram that comes at the beginning of each line,
+		and then only generating lines that begin with one of these "beginnings."
+		It also builds a separate Markov model for each line, and then merges
+		those models together, to ensure that lines end with n-grams statistically
+		likely to end lines in the original text.""" 
+	beginnings = list()
+	models = list()
+	for token_line in token_lines:
+		beginning = token_line[:n]
+		beginnings.append(beginning)
+		line_model = build_model(token_line, n)
+		models.append(line_model)
+	combined_model = merge_models(models)
+	generated_list = list()
+	for i in range(count):
+		generated_str = generate(combined_model, n, random.choice(beginnings),
+				max_iterations)	
+		generated_list.append(generated_str)
+	return generated_list
 
-    tokens = self.tokenize(text)
+def char_level_generate(lines, n, count=14, max_iterations=100):
+	"""Generates Markov chain text from the given lines, using character-level
+		n-grams of length n. Returns a list of count items."""
+	token_lines = [list(line) for line in lines]
+	generated = generate_from_token_lists(token_lines, n, count, max_iterations)
+	return [''.join(item) for item in generated]
 
-    # discard this line if it's too short
-    if len(tokens) < self.n:
-      return
-
-    # store the first ngram of this line
-    beginning = tuple(tokens[:self.n])
-    self.beginnings.append(beginning)
-
-    for i in range(len(tokens) - self.n):
-
-      gram = tuple(tokens[i:i+self.n])
-      next = tokens[i+self.n] # get the element after the gram
-
-      # if we've already seen this ngram, append; otherwise, set the
-      # value for this key as a new list
-      if gram in self.ngrams:
-        self.ngrams[gram].append(next)
-      else:
-        self.ngrams[gram] = [next]
-
-  # called from generate() to join together generated elements
-  def concatenate(self, source):
-    return " ".join(source)
-
-  # generate a text from the information in self.ngrams
-  def generate(self):
-
-    from random import choice
-
-    # get a random line beginning; convert to a list. 
-    current = choice(self.beginnings)
-    output = list(current)
-
-    for i in range(self.max):
-      if current in self.ngrams:
-        possible_next = self.ngrams[current]
-        next = choice(possible_next)
-        output.append(next)
-        # get the last N entries of the output; we'll use this to look up
-        # an ngram in the next iteration of the loop
-        current = tuple(output[-self.n:])
-      else:
-        break
-
-    output_str = self.concatenate(output)
-    return output_str
-    
+def word_level_generate(lines, n, count=14, max_iterations=100):
+	"""Generates Markov chain text from the given lines, using word-level
+		n-grams of length n. Returns a list of count items."""
+	token_lines = [line.split() for line in lines]
+	generated = generate_from_token_lists(token_lines, n, count, max_iterations)
+	return [' '.join(item) for item in generated]
 
 if __name__ == '__main__':
-
-  import sys
-
-  generator = MarkovGenerator(n=3, max=500)
-  for line in sys.stdin:
-    line = line.strip()
-    generator.feed(line)
-
-  for i in range(14):
-    print generator.generate()
+	import sys
+	n = int(sys.argv[1])
+	lines = list()
+	for line in sys.stdin:
+		line = line.strip()
+		lines.append(line)
+	for generated in char_level_generate(lines, n):
+		print generated
 
