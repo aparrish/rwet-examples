@@ -19,11 +19,13 @@ def build_model(tokens, n):
 		model[final_gram] = [None]
 	return model
 
-def generate(model, n, seed, max_iterations=100):
+def generate(model, n, seed=None, max_iterations=100):
 	"""Generates a list of tokens from information in model, using n as the
 		length of n-grams in the model. Starts the generation with the n-gram
 		given as seed. If more than max_iteration iterations are reached, the
 		process is stopped. (This is to prevent infinite loops)""" 
+	if seed is None:
+		seed = random.choice(model.keys())
 	output = list(seed)
 	current = tuple(seed)
 	for i in range(max_iterations):
