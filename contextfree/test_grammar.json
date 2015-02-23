@@ -1,0 +1,11 @@
+{
+	"S": ["NP VP", "Interj NP VP"],
+	"NP": ["Det N", "Det N that VP", "Det Adj N"],
+	"VP": ["Vtrans NP", "Vintr"],
+	"Interj": ["oh,", "my,", "wow,", "damn,"],
+	"Det": ["this", "that", "the"],
+	"N": ["amoeba", "dichotomy", "seagull", "trombone", "corsage", "restaurant", "suburb"],
+	"Adj": ["bald", "smug", "important", "tame", "overstaffed", "luxurious", "blue"],
+	"Vtrans": ["computes", "examines", "foregrounds", "prefers", "interprets", "spins"],
+	"Vintr": ["coughs", "daydreams", "whines", "slobbers", "vocalizes", "sneezes"]
+}
