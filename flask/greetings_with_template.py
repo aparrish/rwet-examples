@@ -10,9 +10,8 @@ places = ["region", "continent", "world", "solar system",
 
 @app.route('/hello')
 def hello():
-  greeting = random.choice(greets) + ", " + random.choice(places)
   return render_template("greeting.html",
-    greet=random.choice(greets), place=random.choice(place))
+    greet=random.choice(greets), place=random.choice(places))
 
 if __name__ == '__main__':
   app.run()
