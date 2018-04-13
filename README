@@ -1,1 +1,8 @@
-Example code for Reading and Writing Electronic Text, a class I teach at ITP. More information here: http://rwet.decontextualize.com/
+This repository has example programs for Reading and Writing Electronic Text, a class I teach at ITP.
+
+Note: These examples have largely been superceded by the Jupyter Notebooks in this repository:
+   https://github.com/aparrish/rwet
+   
+Please check there first!
+
+More information about the class here: http://rwet.decontextualize.com/
